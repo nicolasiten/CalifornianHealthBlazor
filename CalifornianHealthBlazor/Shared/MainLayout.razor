@@ -1,0 +1,120 @@
+﻿@inherits LayoutComponentBase
+
+@*<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>*@
+
+<!--banner-->
+<section id="banner" class="banner">
+    <div class="bg-color">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#"><img src="img/logo1.png" class="img-responsive" style="width: 140px; margin-top: -16px;"></a>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-right" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#banner">Home</a></li>
+                            <li class=""><a href="#service">Services</a></li>
+                            <li class=""><a href="#doctor-team">Our Team</a></li>
+                            <li class=""><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="banner-info">
+                    <div class="banner-logo text-center">
+                        <img src="img/logo1.png" class="img-responsive">
+                    </div>
+                    <div class="banner-text text-center">
+                        <h1 class="white">CALIFORNIAN HEALTH</h1>
+                        <p>Healthcare at your desk</p>
+                        <a href="~/Booking/GetConsultantCalendar" class="btn btn-appoint">Make an Appointment.</a>
+                    </div>
+                    <div class="overlay-detail text-center">
+                        <a href="#service"><i class="fa fa-angle-down"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ banner-->
+@Body
+<!--footer-->
+<footer id="footer">
+    <div class="top-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 marb20">
+                    <div class="ftr-tle">
+                        <h4 class="white no-padding">About Us</h4>
+                    </div>
+                    <div class="info-sec">
+                        <p>Californian Health are a group of world-class, award-winning private hospitals, specialist clinics, outpatients and diagnostics centres and private GP services spread all across the United Kingdom.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 marb20">
+                    <div class="ftr-tle">
+                        <h4 class="white no-padding">Quick Links</h4>
+                    </div>
+                    <div class="info-sec">
+                        <ul class="quick-info">
+                            <li><a href="index.html"><i class="fa fa-circle"></i>Home</a></li>
+                            <li><a href="#service"><i class="fa fa-circle"></i>Service</a></li>
+                            <li><a href="#contact"><i class="fa fa-circle"></i>Appointment</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 marb20">
+                    <div class="ftr-tle">
+                        <h4 class="white no-padding">Follow us</h4>
+                    </div>
+                    <div class="info-sec">
+                        <ul class="social-icon">
+                            <li class="bglight-blue"><i class="fa fa-facebook"></i></li>
+                            <li class="bgred"><i class="fa fa-google-plus"></i></li>
+                            <li class="bgdark-blue"><i class="fa fa-linkedin"></i></li>
+                            <li class="bglight-blue"><i class="fa fa-twitter"></i></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-line">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    © Californian Health. All Rights Reserved
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--/ footer-->
+@*<script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery.easing.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script src="~/contactform/contactform.js"></script>
+@RenderSection("scripts", required: false)*@
