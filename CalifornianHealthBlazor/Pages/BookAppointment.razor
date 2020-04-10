@@ -1,5 +1,20 @@
 ﻿@page "/BookAppointment"
+@using CalifornianHealthBlazor.Extensions
+@using CalifornianHealthBlazor.Helpers
+@inject IJSRuntime JsRuntime
 
 <section id="booking" class="section-padding">
-    <h2>BookAppointment</h2>
+    <h2 align="center">Book Appointment</h2>
+    <hr style="width: 80%"/>
+    <div id="evoCalendar"></div>
 </section>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await BlazorHelpers.RenderCalendar(JsRuntime);
+        }
+    }
+}
