@@ -1,7 +1,156 @@
 ﻿@page "/"
+@inherits FragmentNavigationBase
 
-<h1>Hello, world!</h1>
+<!--service-->
+<section id="service" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-4">
+                <h2 class="ser-title">Our Service</h2>
+                <hr class="botm-line">
+                <p>Our world-renowned medical and surgical consultants have a broad range of experience and expertise, enabling them to treat conditions from the straightforward to the incredibly complex.</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-stethoscope"></i>
+                    </div>
+                    <div class="icon-info">
+                        <h4>24 Hour Support</h4>
+                        <p>
+                            Our hospitals have Urgent Care Centres available across London so you can access immediate care.
+                            We provide urgent care services for adults over 18 and an Urgent Care Centre for children under 18 at The Portland Hospital..
+                        </p>
+                    </div>
+                </div>
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-ambulance"></i>
+                    </div>
+                    <div class="icon-info">
+                        <h4>Emergency Services</h4>
+                        <p>
+                            Our hospitals have Urgent Care Centres available across London so you can access immediate care.
+                            We provide urgent care services for adults over 18 and an Urgent Care Centre for children under 18 at The Portland Hospital..
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-user-md"></i>
+                    </div>
+                    <div class="icon-info">
+                        <h4>Medical Counseling</h4>
+                        <p>We are investing in, and helping to develop, some of the world’s most innovative treatments – making the previously untreatable, treatable..</p>
+                    </div>
+                </div>
+                <div class="service-info">
+                    <div class="icon">
+                        <i class="fa fa-medkit"></i>
+                    </div>
+                    <div class="icon-info">
+                        <h4>Premium Healthcare</h4>
+                        <p>We are investing in, and helping to develop, some of the world’s most innovative treatments – making the previously untreatable, treatable..</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ service-->
+<!--doctor team-->
+<section id="doctor-team" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="ser-title">Meet Our Doctors!</h2>
+                <hr class="botm-line">
+            </div>
 
-Welcome to your new app.
+            <div class="col-md-3 col-sm-3 col-xs-6">
+                <div class="thumbnail">
+                    <img src="img/doctor1.jpg" alt="..." class="team-img">
+                    <div class="caption">
+                        <h3>Doctor Name</h3>
+                        <p>Heart</p>
+                        <ul class="list-inline">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+            <div class="col-md-3 col-sm-3 col-xs-6">
+                <div class="thumbnail">
+                    <img src="img/doctor2.jpg" alt="..." class="team-img">
+                    <div class="caption">
+                        <h3>Doctor Name</h3>
+                        <p>Leg</p>
+                        <ul class="list-inline">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!--/ doctor team-->
+<!--contact-->
+<section id="contact" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="ser-title">Contact us</h2>
+                <hr class="botm-line">
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <h3>Contact Info</h3>
+                <div class="space"></div>
+                <p><i class="fa fa-map-marker fa-fw pull-left fa-2x"></i>321 Awesome Street<br> New York, NY 17022</p>
+                <div class="space"></div>
+                <p><i class="fa fa-envelope-o fa-fw pull-left fa-2x"></i>info@californianhealth.com</p>
+                <div class="space"></div>
+                <p><i class="fa fa-phone fa-fw pull-left fa-2x"></i>+1 800 123 1234</p>
+            </div>
+            <div class="col-md-8 col-sm-8 marb20">
+                <div class="contact-info">
+                    <h3 class="cnt-ttl">Having Any Query! Or Book an appointment</h3>
+                    <div class="space"></div>
+                    <div id="sendmessage">Your message has been sent. Thank you!</div>
+                    <div id="errormessage"></div>
+                    <form action="" method="post" role="form" class="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="name" class="form-control br-radius-zero" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                            <div class="validation"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control br-radius-zero" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                            <div class="validation"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control br-radius-zero" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                            <div class="validation"></div>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control br-radius-zero" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                            <div class="validation"></div>
+                        </div>
+
+                        <div class="form-action">
+                            <button type="submit" class="btn btn-form">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--/ contact-->
