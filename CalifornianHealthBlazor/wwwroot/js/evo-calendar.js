@@ -249,9 +249,6 @@
 
         function buildCalendarHTML() {
             calendarHTML = '<table class="calendar-table">';
-            calendarHTML += '<tr><th colspan="7">';
-            calendarHTML +=  _.$formatDate(new Date(monthName +' '+ new_year), _.options.titleFormat, 'en');
-            calendarHTML += '</th></tr>';
             calendarHTML += '<tr class="calendar-header">';
             for(var i = 0; i <= 6; i++ ){
                 calendarHTML += '<td class="calendar-header-day">';
