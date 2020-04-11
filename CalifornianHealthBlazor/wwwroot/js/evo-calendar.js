@@ -22,10 +22,8 @@
                 firstDayOfWeek: 'Sun',
                 language: 'en',
                 todayHighlight: false,
-                sidebarDisplayDefault: true,
                 sidebarToggler: true,
                 eventListToggler: true,
-                eventDisplayDefault: true,
                 calendarEvents: null,
                 disabledDate: null,
                 canAddEvent: true,
@@ -171,10 +169,6 @@
         if (!$(_.$calendar).hasClass('calendar-initialized')) {
 
             $(_.$calendar).addClass('evo-calendar calendar-initialized');
-
-            if (!_.options.sidebarDisplayDefault) $(_.$calendar).addClass('sidebar-hide');
-
-            if (!_.options.eventDisplayDefault) $(_.$calendar).addClass('event-hide');
 
             _.buildCalendar('all');
         }
