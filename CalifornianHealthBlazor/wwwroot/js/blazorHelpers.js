@@ -21,8 +21,9 @@
                 calendarEvents: [
 
                 ],
-                onSelectDate: function () {
-                    console.log('onSelectDate!');
+                onSelectDate: function (sender) {
+                    var date = sender.currentTarget.getAttribute("date-val");
+                    DotNet.invokeMethodAsync('CalifornianHealthBlazor', 'DayClicked', date);
                 },
                 onAddEvent: function () {
                     console.log('onAddEvent!');

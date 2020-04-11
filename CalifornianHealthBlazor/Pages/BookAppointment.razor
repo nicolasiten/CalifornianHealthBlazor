@@ -17,4 +17,10 @@
             await BlazorHelpers.RenderCalendar(JsRuntime);
         }
     }
+
+    [JSInvokable]
+    public static async Task DayClicked(DateTime date)
+    {
+        Console.WriteLine("clicked");
+    }
 }
