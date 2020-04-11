@@ -264,10 +264,9 @@
                 for (var j = 0; j <= 6; j++) { 
                     calendarHTML += '<td class="calendar-day">';
                     if (day <= monthLength && (i > 0 || j >= startingDay)) {
-                        var thisDay = new Date(monthName + '/' + day + '/' + new_year);
-                        thisDay.setUTCHours(0, 0, 0, 0);
+                        var thisDay = _.$formatDate(new Date(monthName + '/' + day + '/' + new_year), _.options.format, 'en');
                         calendarHTML += '<div class="day'
-                        calendarHTML += ((_.$active_date === thisDay) ? ' calendar-active' : '') + '" date-val="'+thisDay.toISOString()+'">'+day+'</div>';
+                        calendarHTML += ((_.$active_date === thisDay) ? ' calendar-active' : '') + '" date-val="' + thisDay + '" date-formatted-val="' + _.$formatDate(new Date(monthName + '/' + day + '/' + new_year), 'yyyy-mm-dd', 'en') + '">'+day+'</div>';
                         day++;
                     }
                     calendarHTML += '</td>';

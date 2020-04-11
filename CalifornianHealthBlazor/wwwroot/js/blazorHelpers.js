@@ -11,7 +11,7 @@
             }
         },
 
-        renderCalendar: () => {
+        renderCalendar: (dotNetComponent) => {
             $('#evoCalendar').evoCalendar({
                 todayHighlight: true,
                 sidebarToggler: true,
@@ -22,13 +22,17 @@
 
                 ],
                 onSelectDate: function (sender) {
-                    var date = sender.currentTarget.getAttribute("date-val");
-                    DotNet.invokeMethodAsync('CalifornianHealthBlazor', 'DayClicked', date);
+                    var date = sender.currentTarget.getAttribute("date-formatted-val");
+                    dotNetComponent.invokeMethodAsync('DayClicked', date);
                 },
                 onAddEvent: function () {
                     console.log('onAddEvent!');
                 }
             });
+        },
+
+        updateAvailableAppointments: (availableAppointments) => {
+            console.log(availableAppointments);
         }
     };
 
