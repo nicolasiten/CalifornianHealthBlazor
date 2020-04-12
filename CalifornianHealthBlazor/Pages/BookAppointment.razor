@@ -1,6 +1,7 @@
 ﻿@page "/BookAppointment"
 @using CalifornianHealthBlazor.Data
 @using CalifornianHealthBlazor.Helpers
+@using CalifornianHealthBlazor.Models
 @inject IJSRuntime JsRuntime
 @inject ConsultantCalendarService ConsultantCalendarService
 
@@ -12,21 +13,50 @@
 </section>
 
 @code {
+    private AppointmentModel _appointment = new AppointmentModel();
+
+    private static Func<DateTime, Task> _dayClickedAction;
+    private static Action<string> _updateTimeAction;
+
+    protected override void OnInitialized()
+    {
+        _dayClickedAction = UpdateAvailableAppointments;
+        _updateTimeAction = UpdateTime;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await BlazorHelpers.RenderCalendar(JsRuntime, this);
+            await BlazorHelpers.RenderCalendar(JsRuntime);
 
             await UpdateAvailableAppointments(DateTime.Today);
         }
     }
 
-    [JSInvokable("DayClicked")]
-    public async Task UpdateAvailableAppointments(DateTime date)
+    private async Task UpdateAvailableAppointments(DateTime date)
     {
         string[] availableTimes = (await ConsultantCalendarService.GetFreeAppointments(date, 1)).ToArray();
         await BlazorHelpers.UpdateAvailableAppointmentsInCalendar(JsRuntime, availableTimes);
+
+        _appointment.SelectedDate = date;
+        _appointment.SelectedTime = string.Empty;
+    }
+
+    private void UpdateTime(string time)
+    {
+        _appointment.SelectedTime = time;
+    }
+
+    [JSInvokable]
+    public static async Task UpdateAvailableAppointmentsCaller(DateTime date)
+    {
+        await _dayClickedAction.Invoke(date);
+    }
+
+    [JSInvokable]
+    public static void UpdateTimeCaller(string time)
+    {
+        _updateTimeAction.Invoke(time);
     }
 }

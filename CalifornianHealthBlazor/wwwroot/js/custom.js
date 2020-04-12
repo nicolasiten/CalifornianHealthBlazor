@@ -17,7 +17,7 @@
         $(".appointment-badge.active").removeClass("active");
         var target = $(event.target);
         target.addClass('active');
-        console.log(target[0].innerText);
+        blazorHelpers.selectedTimeChanged(target[0].innerText);
     });
 
 })(jQuery);
