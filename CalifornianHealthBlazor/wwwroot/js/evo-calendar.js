@@ -280,7 +280,7 @@
             if(_.options.calendarEvents != null) {
                 var eventHTML = '<div class="event-header"><p>'+_.$formatDate(new Date(_.$active_date), _.options.eventHeaderFormat, 'en')+'</p></div>';
                 var hasEventToday = false;
-                eventHTML += '<div>';
+                eventHTML += '<div class="event-section">';
                 for (var i = 0; i < _.options.calendarEvents.length; i++) {
                     if(_.$active_date === _.options.calendarEvents[i].date) {
                         hasEventToday = true;
@@ -300,9 +300,7 @@
                         }
                     }
                 };
-                if(!hasEventToday) {
-                    eventHTML += '<p>No event for this day.. so take a rest! :)</p>';
-                }
+
                 eventHTML += '</div>';
                 _.$eventHTML = eventHTML;
             }

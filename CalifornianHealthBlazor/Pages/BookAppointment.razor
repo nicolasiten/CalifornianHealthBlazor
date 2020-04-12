@@ -18,15 +18,15 @@
         if (firstRender)
         {
             await BlazorHelpers.RenderCalendar(JsRuntime, this);
+
+            await UpdateAvailableAppointments(DateTime.Today);
         }
     }
 
-    [JSInvokable]
-    public async Task DayClicked(DateTime date)
+    [JSInvokable("DayClicked")]
+    public async Task UpdateAvailableAppointments(DateTime date)
     {
-        Console.WriteLine("clicked");
         string[] availableTimes = (await ConsultantCalendarService.GetFreeAppointments(date, 1)).ToArray();
         await BlazorHelpers.UpdateAvailableAppointmentsInCalendar(JsRuntime, availableTimes);
-    //eventHTML += '<div><span class="badge" style="color: blue;">08:00</span</div>';
     }
 }

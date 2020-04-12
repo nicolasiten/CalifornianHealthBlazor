@@ -483,6 +483,28 @@ contact us
         display: block;
     }
 
+/***************************************
+appointment
+***************************************/
+.event-section {
+    margin-top: 20px;
+}
+
+.appointment-badge {
+    background-color: #325C6A;
+    margin: 5px;
+    font-size: 15px;
+    min-width: 70px;
+    cursor: pointer;
+}
+
+.appointment-badge:hover {
+    background: rgba(12, 184, 182, 0.7);
+}
+
+.appointment-badge.active {
+    background: rgba(12, 184, 182, 0.7);
+}
 
 /***************************************
 footer

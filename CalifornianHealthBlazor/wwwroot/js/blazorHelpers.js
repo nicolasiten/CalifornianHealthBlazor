@@ -32,7 +32,10 @@
         },
 
         updateAvailableAppointments: (availableAppointments) => {
-            console.log(availableAppointments);
+            for (var i = 0; i < availableAppointments.length; i++) {
+                var appointmentNode = '<span class="badge appointment-badge">' + availableAppointments[i] + '</span>';
+                $(".event-section").append(appointmentNode);
+            };
         }
     };
 

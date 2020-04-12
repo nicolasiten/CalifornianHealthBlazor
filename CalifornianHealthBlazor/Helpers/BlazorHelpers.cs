@@ -16,7 +16,7 @@ namespace CalifornianHealthBlazor.Helpers
 
         public static ValueTask UpdateAvailableAppointmentsInCalendar(IJSRuntime jsRuntime, string[] availableTimes)
         {
-            return jsRuntime.InvokeVoidAsync("blazorHelpers.updateAvailableAppointments", availableTimes);
+            return jsRuntime.InvokeVoidAsync("blazorHelpers.updateAvailableAppointments", (object)availableTimes);
         }
     }
 }
