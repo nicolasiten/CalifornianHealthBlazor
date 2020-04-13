@@ -18,7 +18,7 @@ namespace CalifornianHealthBlazor.Data.Config
                 .IsRequired()
                 .HasColumnType("date");
 
-            builder.HasIndex(a => new {a.ConsultantFk, a.PatientFk, a.TimeSlotFk}).IsUnique();
+            builder.HasIndex(a => new {a.ConsultantFk, a.PatientFk, a.TimeSlotFk, a.SelectedDate}).IsUnique();
 
             builder.HasOne(a => a.Consultant)
                 .WithMany(c => c.Appointments)

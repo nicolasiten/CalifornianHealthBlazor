@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CalifornianHealthBlazor.Data;
+using CalifornianHealthBlazor.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CalifornianHealthBlazor
 {
@@ -28,10 +30,17 @@ namespace CalifornianHealthBlazor
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<ConsultantCalendarService>();
             services.AddScoped<ConsultantService>();
             services.AddScoped<PatientService>();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DataConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

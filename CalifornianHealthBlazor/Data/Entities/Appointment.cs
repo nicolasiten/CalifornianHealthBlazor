@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace CalifornianHealthBlazor.Data.Entities
 {
-    public class Appointment
+    public class Appointment : BaseEntity
     {
-        public int Id { get; set; }
-
         public int? ConsultantFk { get; set; }
 
         public int? PatientFk { get; set; }
