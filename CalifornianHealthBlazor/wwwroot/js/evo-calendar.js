@@ -26,7 +26,7 @@
                 eventListToggler: true,
                 calendarEvents: null,
                 disabledDate: null,
-                canAddEvent: true,
+                canAddEvent: false,
 
                 onSelectDate: null,
                 onAddEvent: null

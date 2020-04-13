@@ -16,7 +16,6 @@ input:focus, textarea:focus, button:focus {
     position: relative;
     background-color: #fbfbfb;
     color: #5a5a5a;
-    width: 80%;
     margin: 0 auto;
     box-shadow: 0 10px 50px -20px rgba(28,74,90, 0.9);
     overflow: hidden;

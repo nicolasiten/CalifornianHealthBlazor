@@ -4,11 +4,24 @@
 @using CalifornianHealthBlazor.Models
 @inject IJSRuntime JsRuntime
 @inject ConsultantCalendarService ConsultantCalendarService
+@inject ConsultantService ConsultantService
 
 
 <section id="booking" class="section-padding">
-    <h2 align="center">Book Appointment</h2>
-    <hr style="width: 80%" />
+    <h2>Book Appointment</h2>
+    <hr />
+
+    <div class="form-group">
+        <label>Consultant</label>
+        <select class="form-control" @onchange="SelectedConsultantChanged">
+            <option selected disabled value="-1">--Choose Consultant--</option>
+            @foreach (var consultant in _appointment.Consultants)
+            {
+                <option value="@consultant.Id">@consultant.Firstname @consultant.Lastname</option>
+            }
+        </select>
+    </div>
+
     <div id="evoCalendar"></div>
 </section>
 
@@ -18,10 +31,11 @@
     private static Func<DateTime, Task> _dayClickedAction;
     private static Action<string> _updateTimeAction;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         _dayClickedAction = UpdateAvailableAppointments;
         _updateTimeAction = UpdateTime;
+        _appointment.Consultants.AddRange(await ConsultantService.GetAllConsultants());
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -34,10 +48,26 @@
         }
     }
 
+    private async Task SelectedConsultantChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int consultantId))
+        {
+            _appointment.SelectedConsultantId = consultantId;
+            await UpdateAvailableAppointments(_appointment.SelectedDate);
+        }
+    }
+
     private async Task UpdateAvailableAppointments(DateTime date)
     {
-        string[] availableTimes = (await ConsultantCalendarService.GetFreeAppointments(date, 1)).ToArray();
-        await BlazorHelpers.UpdateAvailableAppointmentsInCalendar(JsRuntime, availableTimes);
+        if (_appointment.SelectedConsultantId > 0)
+        {
+            string[] availableTimes = (await ConsultantCalendarService.GetFreeAppointments(date, _appointment.SelectedConsultantId)).ToArray();
+            await BlazorHelpers.UpdateAvailableAppointmentsInCalendar(JsRuntime, availableTimes);
+        }
+        else
+        {
+            await BlazorHelpers.UpdateAvailableAppointmentsInCalendar(JsRuntime, new string[0]);
+        }
 
         _appointment.SelectedDate = date;
         _appointment.SelectedTime = string.Empty;

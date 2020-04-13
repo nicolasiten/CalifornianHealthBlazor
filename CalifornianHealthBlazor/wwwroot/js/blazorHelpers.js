@@ -16,22 +16,20 @@
                 todayHighlight: true,
                 sidebarToggler: true,
                 eventListToggler: true,
-                eventDisplayDefault: false,
-                canAddEvent: true,
+                canAddEvent: false,
                 calendarEvents: [
 
                 ],
                 onSelectDate: function (sender) {
                     var date = sender.currentTarget.getAttribute("date-formatted-val");
                     DotNet.invokeMethodAsync('CalifornianHealthBlazor', 'UpdateAvailableAppointmentsCaller', date);
-                },
-                onAddEvent: function () {
-                    console.log('onAddEvent!');
                 }
             });
         },
 
         updateAvailableAppointments: (availableAppointments) => {
+            $('.appointment-badge').remove();
+
             for (var i = 0; i < availableAppointments.length; i++) {
                 var appointmentNode = '<span class="badge appointment-badge">' + availableAppointments[i] + '</span>';
                 $(".event-section").append(appointmentNode);

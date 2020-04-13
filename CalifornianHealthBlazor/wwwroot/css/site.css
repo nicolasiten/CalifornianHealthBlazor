@@ -506,6 +506,15 @@ appointment
     background: rgba(12, 184, 182, 0.7);
 }
 
+#booking {
+    width: 80%;
+    margin: auto;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
 /***************************************
 footer
 ***************************************/
