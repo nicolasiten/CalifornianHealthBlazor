@@ -515,6 +515,19 @@ appointment
     margin-bottom: 10px;
 }
 
+.btn-submit {
+    margin: 20px auto auto;
+    display: block;
+    background-color: rgb(28,74,90);
+    font-size: 20px;
+    color: white;
+}
+
+.btn-submit:hover {
+    background-color: rgb(12, 184, 182);
+    color: white;
+}
+
 /***************************************
 footer
 ***************************************/

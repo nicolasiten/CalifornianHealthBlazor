@@ -31,6 +31,7 @@ namespace CalifornianHealthBlazor
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<ConsultantCalendarService>();
             services.AddScoped<ConsultantService>();
+            services.AddScoped<PatientService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

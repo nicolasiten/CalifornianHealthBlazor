@@ -1,32 +1,58 @@
 ﻿@page "/BookAppointment"
+@using System.ComponentModel.DataAnnotations
 @using CalifornianHealthBlazor.Data
 @using CalifornianHealthBlazor.Helpers
 @using CalifornianHealthBlazor.Models
 @inject IJSRuntime JsRuntime
 @inject ConsultantCalendarService ConsultantCalendarService
 @inject ConsultantService ConsultantService
+@inject PatientService PatientService
 
 
 <section id="booking" class="section-padding">
-    <h2>Book Appointment</h2>
-    <hr />
+    <h2 align="center">Book Appointment</h2>
+    <hr />    
+
+    <div class="alert alert-danger" style="@(_validationErrors.Any() ? "" : "display: none")">
+        <b>Invalid Input</b><br/>
+        @foreach (var error in _validationErrors)
+        {
+            @($"-{error}")<br/>
+        }
+    </div>
 
     <div class="form-group">
         <label>Consultant</label>
         <select class="form-control" @onchange="SelectedConsultantChanged">
             <option selected disabled value="-1">--Choose Consultant--</option>
-            @foreach (var consultant in _appointment.Consultants)
+            @foreach (var consultant in _appointment.Consultants.OrderBy(c => c.Firstname).ThenBy(c => c.Lastname))
             {
                 <option value="@consultant.Id">@consultant.Firstname @consultant.Lastname</option>
             }
         </select>
     </div>
 
+    <div class="form-group">
+        <label>Patient</label>
+        <select class="form-control" @bind="_appointment.SelectedPatientId">
+            <option selected disabled value="0">--Choose Patient--</option>
+            @foreach (var patient in _appointment.Patients.OrderBy(c => c.Firstname).ThenBy(c => c.Lastname))
+            {
+                <option value="@patient.Id">@patient.Firstname @patient.Lastname</option>
+            }
+        </select>
+    </div>
+
     <div id="evoCalendar"></div>
+
+    <div class="form-group">
+        <button class="btn btn-submit" @onclick="SubmitClicked">Submit</button>
+    </div>        
 </section>
 
 @code {
     private AppointmentModel _appointment = new AppointmentModel();
+    private List<string> _validationErrors = new List<string>();
 
     private static Func<DateTime, Task> _dayClickedAction;
     private static Action<string> _updateTimeAction;
@@ -36,6 +62,7 @@
         _dayClickedAction = UpdateAvailableAppointments;
         _updateTimeAction = UpdateTime;
         _appointment.Consultants.AddRange(await ConsultantService.GetAllConsultants());
+        _appointment.Patients.AddRange(await PatientService.GetAllPatients());
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -45,6 +72,37 @@
             await BlazorHelpers.RenderCalendar(JsRuntime);
 
             await UpdateAvailableAppointments(DateTime.Today);
+        }
+    }
+
+    private async Task SubmitClicked(MouseEventArgs e)
+    {
+        _validationErrors.Clear();
+
+        // validation
+        if (_appointment.SelectedConsultantId < 1)
+        {
+            _validationErrors.Add("Please select Consultant");
+        }
+
+        if (_appointment.SelectedPatientId < 1)
+        {
+            _validationErrors.Add("Please select Patient");
+        }
+
+        if (_appointment.SelectedDate < DateTime.UtcNow.Date)
+        {
+            _validationErrors.Add("It's not possible to book an appointment in the past. Please select today or a future date");
+        }
+
+        if (_appointment.SelectedTime == string.Empty)
+        {
+            _validationErrors.Add("Please select a time");
+        }
+
+        if (!_validationErrors.Any())
+        {
+            // post
         }
     }
 
