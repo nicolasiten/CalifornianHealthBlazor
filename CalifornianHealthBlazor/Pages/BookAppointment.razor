@@ -1,20 +1,22 @@
 ﻿@page "/BookAppointment"
 @using CalifornianHealthBlazor.Data
+@using CalifornianHealthBlazor.Exceptions
 @using CalifornianHealthBlazor.Helpers
 @using CalifornianHealthBlazor.Interfaces
 @using CalifornianHealthBlazor.Models
 @inject IJSRuntime JsRuntime
 @inject IAppointmentService AppointmentService
+@inject NavigationManager NavigationManager
 
 <section id="booking" class="section-padding">
     <h2 align="center">Book Appointment</h2>
-    <hr />    
+    <hr />
 
     <div class="alert alert-danger" style="@(_validationErrors.Any() ? "" : "display: none")">
-        <b>Invalid Input</b><br/>
+        <b>Invalid Input</b><br />
         @foreach (var error in _validationErrors)
         {
-            @($"-{error}")<br/>
+            @($"-{error}")<br />
         }
     </div>
 
@@ -44,7 +46,7 @@
 
     <div class="form-group">
         <button class="btn btn-submit" @onclick="SubmitClicked">Submit</button>
-    </div>        
+    </div>
 </section>
 
 @code {
@@ -79,7 +81,16 @@
 
         if (!_validationErrors.Any())
         {
-            await AppointmentService.SaveAppointmentAsync(_appointment);
+            try
+            {
+                await AppointmentService.SaveAppointmentAsync(_appointment);
+                NavigationManager.NavigateTo("/");
+            }
+            catch (CalifornianHealthException ex)
+            {
+                _validationErrors.Add(ex.Message);
+                await UpdateAvailableAppointments(_appointment.SelectedDate);
+            }
         }
     }
 

@@ -6,6 +6,7 @@ using CalifornianHealthBlazor.Data.Entities;
 using CalifornianHealthBlazor.Exceptions;
 using CalifornianHealthBlazor.Interfaces;
 using CalifornianHealthBlazor.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CalifornianHealthBlazor.Services
 {
@@ -108,9 +109,9 @@ namespace CalifornianHealthBlazor.Services
                     SelectedDate = appointmentModel.SelectedDate
                 });
             }
-            catch (Exception ex)
+            catch (DbUpdateException)
             {
-                Console.WriteLine(ex.Message);
+                throw new CalifornianHealthException($"Timeslot {appointmentModel.SelectedTime} has been booked already, please select another one.");
             }
         }
 
