@@ -65,6 +65,32 @@ namespace CalifornianHealthBlazor.Data
                 dbContext.Patients.AddRange(patients);
                 await dbContext.SaveChangesAsync();
             }
+
+            if (!dbContext.TimeSlots.Any())
+            {
+                TimeSlot[] timeSlots =
+                {
+                    new TimeSlot { Time = "08:00" },
+                    new TimeSlot { Time = "08:30" },
+                    new TimeSlot { Time = "09:00" },
+                    new TimeSlot { Time = "09:30" },
+                    new TimeSlot { Time = "10:00" },
+                    new TimeSlot { Time = "10:30" },
+                    new TimeSlot { Time = "11:00" },
+                    new TimeSlot { Time = "11:30" },
+                    new TimeSlot { Time = "13:00" },
+                    new TimeSlot { Time = "13:30" },
+                    new TimeSlot { Time = "14:00" },
+                    new TimeSlot { Time = "14:30" },
+                    new TimeSlot { Time = "15:00" },
+                    new TimeSlot { Time = "15:30" },
+                    new TimeSlot { Time = "16:00" },
+                    new TimeSlot { Time = "16:30" }
+                };
+
+                dbContext.TimeSlots.AddRange(timeSlots);
+                dbContext.SaveChanges();
+            }
         }
     }
 }

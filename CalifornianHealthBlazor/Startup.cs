@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CalifornianHealthBlazor.Data;
 using CalifornianHealthBlazor.Interfaces;
+using CalifornianHealthBlazor.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace CalifornianHealthBlazor
@@ -33,10 +34,7 @@ namespace CalifornianHealthBlazor
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
-            services.AddSingleton<WeatherForecastService>();
-            services.AddScoped<ConsultantCalendarService>();
-            services.AddScoped<ConsultantService>();
-            services.AddScoped<PatientService>();
+            services.AddScoped<IAppointmentService, AppointmentService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

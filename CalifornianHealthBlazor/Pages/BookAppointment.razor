@@ -1,13 +1,10 @@
 ﻿@page "/BookAppointment"
-@using System.ComponentModel.DataAnnotations
 @using CalifornianHealthBlazor.Data
 @using CalifornianHealthBlazor.Helpers
+@using CalifornianHealthBlazor.Interfaces
 @using CalifornianHealthBlazor.Models
 @inject IJSRuntime JsRuntime
-@inject ConsultantCalendarService ConsultantCalendarService
-@inject ConsultantService ConsultantService
-@inject PatientService PatientService
-
+@inject IAppointmentService AppointmentService
 
 <section id="booking" class="section-padding">
     <h2 align="center">Book Appointment</h2>
@@ -61,8 +58,7 @@
     {
         _dayClickedAction = UpdateAvailableAppointments;
         _updateTimeAction = UpdateTime;
-        _appointment.Consultants.AddRange(await ConsultantService.GetAllConsultants());
-        _appointment.Patients.AddRange(await PatientService.GetAllPatients());
+        await AppointmentService.BuildAppointmentModelAsync(_appointment);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -79,30 +75,11 @@
     {
         _validationErrors.Clear();
 
-        // validation
-        if (_appointment.SelectedConsultantId < 1)
-        {
-            _validationErrors.Add("Please select Consultant");
-        }
-
-        if (_appointment.SelectedPatientId < 1)
-        {
-            _validationErrors.Add("Please select Patient");
-        }
-
-        if (_appointment.SelectedDate < DateTime.UtcNow.Date)
-        {
-            _validationErrors.Add("It's not possible to book an appointment in the past. Please select today or a future date");
-        }
-
-        if (_appointment.SelectedTime == string.Empty)
-        {
-            _validationErrors.Add("Please select a time");
-        }
+        _validationErrors.AddRange(AppointmentService.ValidateAppointment(_appointment));
 
         if (!_validationErrors.Any())
         {
-            // post
+            await AppointmentService.SaveAppointmentAsync(_appointment);
         }
     }
 
@@ -119,7 +96,7 @@
     {
         if (_appointment.SelectedConsultantId > 0)
         {
-            string[] availableTimes = (await ConsultantCalendarService.GetFreeAppointments(date, _appointment.SelectedConsultantId)).ToArray();
+            string[] availableTimes = (await AppointmentService.GetFreeAppointmentTimesAsync(date, _appointment.SelectedConsultantId)).ToArray();
             await BlazorHelpers.UpdateAvailableAppointmentsInCalendar(JsRuntime, availableTimes);
         }
         else
