@@ -1,6 +1,12 @@
 ﻿(function ($) {
 
+    var dotNetReference = null;
+
     window.blazorHelpers = {
+        init: (reference) => {
+            dotNetReference = reference;
+        },
+
         scrollToFragment: (elementId) => {
             var element = document.getElementById(elementId);
 
@@ -11,7 +17,7 @@
             }
         },
 
-        renderCalendar: () => {
+        renderCalendar: (dotNetReference) => {
             $('#evoCalendar').evoCalendar({
                 todayHighlight: true,
                 sidebarToggler: true,
@@ -22,7 +28,7 @@
                 ],
                 onSelectDate: function (sender) {
                     var date = sender.currentTarget.getAttribute("date-formatted-val");
-                    DotNet.invokeMethodAsync('CalifornianHealthBlazor', 'UpdateAvailableAppointmentsCaller', date);
+                    dotNetReference.invokeMethodAsync('UpdateAvailableAppointments', date);
                 }
             });
         },
@@ -38,7 +44,7 @@
 
         selectedTimeChanged: (selectedTime) => {
             if (selectedTime != null) {
-                DotNet.invokeMethodAsync('CalifornianHealthBlazor', 'UpdateTimeCaller', selectedTime);
+                dotNetReference.invokeMethodAsync('UpdateTime', selectedTime);
             }
         }
     };

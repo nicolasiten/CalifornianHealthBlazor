@@ -53,13 +53,9 @@
     private AppointmentModel _appointment = new AppointmentModel();
     private List<string> _validationErrors = new List<string>();
 
-    private static Func<DateTime, Task> _dayClickedAction;
-    private static Action<string> _updateTimeAction;
-
     protected override async Task OnInitializedAsync()
     {
-        _dayClickedAction = UpdateAvailableAppointments;
-        _updateTimeAction = UpdateTime;
+        await BlazorHelpers.InitializeBlazorHelpers(JsRuntime, DotNetObjectReference.Create(this));
         await AppointmentService.BuildAppointmentModelAsync(_appointment);
     }
 
@@ -67,7 +63,7 @@
     {
         if (firstRender)
         {
-            await BlazorHelpers.RenderCalendar(JsRuntime);
+            await BlazorHelpers.RenderCalendar(JsRuntime, DotNetObjectReference.Create(this));
 
             await UpdateAvailableAppointments(DateTime.Today);
         }
@@ -103,7 +99,8 @@
         }
     }
 
-    private async Task UpdateAvailableAppointments(DateTime date)
+    [JSInvokable]
+    public async Task UpdateAvailableAppointments(DateTime date)
     {
         if (_appointment.SelectedConsultantId > 0)
         {
@@ -119,20 +116,9 @@
         _appointment.SelectedTime = string.Empty;
     }
 
-    private void UpdateTime(string time)
+    [JSInvokable]
+    public void UpdateTime(string time)
     {
         _appointment.SelectedTime = time;
-    }
-
-    [JSInvokable]
-    public static async Task UpdateAvailableAppointmentsCaller(DateTime date)
-    {
-        await _dayClickedAction.Invoke(date);
-    }
-
-    [JSInvokable]
-    public static void UpdateTimeCaller(string time)
-    {
-        _updateTimeAction.Invoke(time);
     }
 }

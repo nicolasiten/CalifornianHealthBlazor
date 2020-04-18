@@ -9,9 +9,14 @@ namespace CalifornianHealthBlazor.Helpers
 {
     public static class BlazorHelpers
     {
-        public static ValueTask RenderCalendar(IJSRuntime jsRuntime)
+        public static ValueTask InitializeBlazorHelpers<T>(IJSRuntime jsRuntime, DotNetObjectReference<T> dotNetObjectReference) where T : class
         {
-            return jsRuntime.InvokeVoidAsync("blazorHelpers.renderCalendar");
+            return jsRuntime.InvokeVoidAsync("blazorHelpers.init", dotNetObjectReference);
+        }
+
+        public static ValueTask RenderCalendar(IJSRuntime jsRuntime, DotNetObjectReference<BookAppointment> dotNetObjectReference)
+        {
+            return jsRuntime.InvokeVoidAsync("blazorHelpers.renderCalendar", dotNetObjectReference);
         }
 
         public static ValueTask UpdateAvailableAppointmentsInCalendar(IJSRuntime jsRuntime, string[] availableTimes)
