@@ -55,7 +55,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await BlazorHelpers.InitializeBlazorHelpers(JsRuntime, DotNetObjectReference.Create(this));
         await AppointmentService.BuildAppointmentModelAsync(_appointment);
     }
 
@@ -63,6 +62,7 @@
     {
         if (firstRender)
         {
+            await BlazorHelpers.InitializeBlazorHelpers(JsRuntime, DotNetObjectReference.Create(this));
             await BlazorHelpers.RenderCalendar(JsRuntime, DotNetObjectReference.Create(this));
 
             await UpdateAvailableAppointments(DateTime.Today);
