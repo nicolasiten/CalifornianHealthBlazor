@@ -35,6 +35,7 @@ namespace CalifornianHealthBlazor
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IConsultantService, ConsultantService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(

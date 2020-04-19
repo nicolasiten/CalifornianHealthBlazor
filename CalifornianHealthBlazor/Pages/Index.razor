@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using CalifornianHealthBlazor.Interfaces
+@using CalifornianHealthBlazor.Models
 @inherits FragmentNavigationBase
-
+@inject IConsultantService ConsultantService
 <!--service-->
 <section id="service" class="section-padding">
     <div class="container">
@@ -68,37 +70,26 @@
                 <h2 class="ser-title">Meet Our Doctors!</h2>
                 <hr class="botm-line">
             </div>
+            @for (int i = 0; i < _consultants.Count; i++)
+            {
+                var consultant = _consultants[i];
+                int doctorImage = i % 4 == 0 ? 4 : i % 4;
 
-            <div class="col-md-3 col-sm-3 col-xs-6">
-                <div class="thumbnail">
-                    <img src="img/doctor1.jpg" alt="..." class="team-img">
-                    <div class="caption">
-                        <h3>Doctor Name</h3>
-                        <p>Heart</p>
-                        <ul class="list-inline">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        </ul>
+                <div class="col-md-3 col-sm-3 col-xs-6">
+                    <div class="thumbnail">
+                        <img src="@($"img/doctor{doctorImage}.jpg")" alt="doctor image" class="team-img">
+                        <div class="caption">
+                            <h3>@consultant.Firstname @consultant.Lastname</h3>
+                            <p>@consultant.Specialty</p>
+                            <ul class="list-inline">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-md-3 col-sm-3 col-xs-6">
-                <div class="thumbnail">
-                    <img src="img/doctor2.jpg" alt="..." class="team-img">
-                    <div class="caption">
-                        <h3>Doctor Name</h3>
-                        <p>Leg</p>
-                        <ul class="list-inline">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
+            }
         </div>
     </div>
 </section>
@@ -154,3 +145,12 @@
     </div>
 </section>
 <!--/ contact-->
+
+@code {
+    private List<ConsultantModel> _consultants = new List<ConsultantModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _consultants.AddRange(await ConsultantService.GetConsultantsAsync());
+    }
+}
