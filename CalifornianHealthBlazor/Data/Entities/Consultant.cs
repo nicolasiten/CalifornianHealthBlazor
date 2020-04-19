@@ -14,5 +14,7 @@ namespace CalifornianHealthBlazor.Data.Entities
         public string Specialty { get; set; }
 
         public ICollection<Appointment> Appointments { get; set; }
+
+        public ICollection<TimeSlot> TimeSlots { get; set; }
     }
 }

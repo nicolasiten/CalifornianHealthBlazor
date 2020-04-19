@@ -68,27 +68,33 @@ namespace CalifornianHealthBlazor.Data
 
             if (!dbContext.TimeSlots.Any())
             {
-                TimeSlot[] timeSlots =
+                for (int i = 1; i <= 5; i++)
                 {
-                    new TimeSlot { Time = "08:00" },
-                    new TimeSlot { Time = "08:30" },
-                    new TimeSlot { Time = "09:00" },
-                    new TimeSlot { Time = "09:30" },
-                    new TimeSlot { Time = "10:00" },
-                    new TimeSlot { Time = "10:30" },
-                    new TimeSlot { Time = "11:00" },
-                    new TimeSlot { Time = "11:30" },
-                    new TimeSlot { Time = "13:00" },
-                    new TimeSlot { Time = "13:30" },
-                    new TimeSlot { Time = "14:00" },
-                    new TimeSlot { Time = "14:30" },
-                    new TimeSlot { Time = "15:00" },
-                    new TimeSlot { Time = "15:30" },
-                    new TimeSlot { Time = "16:00" },
-                    new TimeSlot { Time = "16:30" }
-                };
+                    await foreach (var consultant in dbContext.Consultants)
+                    {
+                        TimeSlot[] timeSlots =
+                        {
+                            new TimeSlot { Time = "08:00", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "08:30", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "09:00", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "09:30", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "10:00", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "10:30", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "11:00", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "11:30", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "13:00", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "13:30", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "14:00", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "14:30", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "15:00", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "15:30", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "16:00", DayOfWeek = i, ConsultantFk = consultant.Id },
+                            new TimeSlot { Time = "16:30", DayOfWeek = i, ConsultantFk = consultant.Id }
+                        };
 
-                dbContext.TimeSlots.AddRange(timeSlots);
+                        dbContext.TimeSlots.AddRange(timeSlots);
+                    }
+                }
                 dbContext.SaveChanges();
             }
         }

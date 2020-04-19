@@ -17,6 +17,16 @@ namespace CalifornianHealthBlazor.Data.Config
             builder.Property(ts => ts.Time)
                 .IsRequired();
 
+            builder.Property(ts => ts.DayOfWeek)
+                .IsRequired();
+
+            builder.HasIndex(ts => ts.ConsultantFk);
+
+            builder.HasOne(a => a.Consultant)
+                .WithMany(a => a.TimeSlots)
+                .HasForeignKey(ts => ts.ConsultantFk)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.ToTable("TimeSlot");
         }
     }

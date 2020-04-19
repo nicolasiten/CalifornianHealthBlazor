@@ -83,14 +83,24 @@ namespace CalifornianHealthBlazor.Services
         {
             var takenTimeSlots = await GetTakenTimeSlotsAsync(date, consultantId);
 
-            return (await _timeSlotRepository.GetAllAsync(ts => takenTimeSlots.All(tts => tts != ts.Id)))
-                .Select(ts => ts.Time);
+            if (date < DateTime.UtcNow.Date)
+            {
+                return new string[0];
+            }
+
+            return (await _timeSlotRepository.GetAllAsync(ts => takenTimeSlots.All(tts => tts != ts.Id) 
+                                                                && ts.ConsultantFk == consultantId
+                                                                && ts.DayOfWeek == (int)date.DayOfWeek))
+                .Select(ts => ts.Time)
+                .OrderBy(ts => DateTime.Parse(ts));
         }
 
         public async Task SaveAppointmentAsync(AppointmentModel appointmentModel)
         {
             int? timeSlotId =
-                (await _timeSlotRepository.GetAllAsync(ts => ts.Time == appointmentModel.SelectedTime))
+                (await _timeSlotRepository.GetAllAsync(ts => ts.Time == appointmentModel.SelectedTime 
+                                                             && ts.ConsultantFk == appointmentModel.SelectedConsultantId
+                                                             && ts.DayOfWeek == (int)appointmentModel.SelectedDate.DayOfWeek))
                 .SingleOrDefault()
                 ?.Id;
 
