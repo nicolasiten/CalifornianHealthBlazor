@@ -58,8 +58,16 @@ namespace CalifornianHealthBlazor.Data
 
         public virtual async Task<T> AddAsync(T entity)
         {
-            dbContext.Set<T>().Add(entity);
-            await dbContext.SaveChangesAsync();
+            try
+            {
+                dbContext.Set<T>().Add(entity);
+                await dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                dbContext.Entry(entity).State = EntityState.Detached;
+                throw;
+            }
 
             return entity;
         }
