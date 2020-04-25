@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalifornianHealthBlazor", "CalifornianHealthBlazor\CalifornianHealthBlazor.csproj", "{52B1D795-0A0F-4A83-949E-0462E2188462}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalifornianHealthBlazor", "Web\CalifornianHealthBlazor\CalifornianHealthBlazor.csproj", "{52B1D795-0A0F-4A83-949E-0462E2188462}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{79B30FF6-C6B6-4C85-ABE0-9B9C3CBFC826}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{52B1D795-0A0F-4A83-949E-0462E2188462} = {79B30FF6-C6B6-4C85-ABE0-9B9C3CBFC826}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64B14918-5C0A-4744-B5BE-F3278DB0C7B0}
