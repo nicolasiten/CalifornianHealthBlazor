@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Calendar.Amqp;
+using Calendar.Interfaces;
+using Calendar.Services;
 using CalifornianHealthBlazor.Data;
 using CalifornianHealthBlazor.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -54,6 +56,7 @@ namespace Calendar
             
             // services
             services.AddHostedService<BookingServer>();
+            services.AddScoped<IAppointmentService, AppointmentService>();
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 
@@ -71,8 +74,10 @@ namespace Calendar
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
 

@@ -1,31 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CalifornianHealth.Common.Models;
-using CalifornianHealthBlazor.Data.Entities;
 using CalifornianHealthBlazor.Interfaces;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CalifornianHealthBlazor.Services
 {
     public class ConsultantService : IConsultantService
     {
-        private readonly IAsyncRepository<Consultant> _consultantRepository;
+        private readonly string _baseUrl;
+        private readonly HttpClient _httpClient;
 
-        public ConsultantService(IAsyncRepository<Consultant> consultantRepository)
+        public ConsultantService(
+            IConfiguration configuration,
+            HttpClient httpClient)
         {
-            _consultantRepository = consultantRepository;
+            _baseUrl = configuration.GetValue<string>("CalendarBaseUrl");
+            _httpClient = httpClient;
         }
 
         public async Task<IEnumerable<ConsultantModel>> GetConsultantsAsync()
         {
-            return (await _consultantRepository.GetAllAsync()).Select(c => new ConsultantModel
-            {
-                Id = c.Id,
-                Firstname = c.Firstname,
-                Lastname = c.Lastname,
-                Specialty = c.Specialty
-            });
+            var response = await _httpClient.GetAsync($"{_baseUrl}GetConsultants");
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<List<ConsultantModel>>(responseString);
         }
     }
 }

@@ -4,16 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using CalifornianHealth.Common.Models;
 
-namespace CalifornianHealthBlazor.Interfaces
+namespace Calendar.Interfaces
 {
     public interface IAppointmentService
     {
         Task<AppointmentModel> BuildAppointmentModelAsync();
 
-        IEnumerable<string> ValidateAppointment(AppointmentModel appointmentModel);
-
         Task<IEnumerable<string>> GetFreeAppointmentTimesAsync(DateTime date, int consultantId);
 
         Task SaveAppointmentAsync(AppointmentModel appointmentModel);
+
+        Task<IEnumerable<ConsultantModel>> GetConsultantsAsync();
     }
 }

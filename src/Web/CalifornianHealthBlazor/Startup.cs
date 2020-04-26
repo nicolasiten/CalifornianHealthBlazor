@@ -1,18 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using CalifornianHealthBlazor.Data;
 using CalifornianHealthBlazor.Interfaces;
 using CalifornianHealthBlazor.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace CalifornianHealthBlazor
 {
@@ -32,14 +24,8 @@ namespace CalifornianHealthBlazor
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
-
-            services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IConsultantService, ConsultantService>();
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DataConnection")), ServiceLifetime.Transient);
+            services.AddHttpClient<IAppointmentService, AppointmentService>();
+            services.AddHttpClient<IConsultantService, ConsultantService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

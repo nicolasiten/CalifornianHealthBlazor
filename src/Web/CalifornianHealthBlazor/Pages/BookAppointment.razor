@@ -54,7 +54,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await AppointmentService.BuildAppointmentModelAsync(_appointment);
+        _appointment = await AppointmentService.BuildAppointmentModelAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
