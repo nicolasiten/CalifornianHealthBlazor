@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Calendar.Amqp;
-using Calendar.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -49,9 +48,9 @@ namespace Calendar
                 var connection = provider.GetRequiredService<IConnection>();
                 return connection.CreateModel();
             });
-
+            
             // services
-            services.AddTransient<IBookingServer, BookingServer>();
+            services.AddHostedService<BookingServer>();
 
             services.AddControllers();
         }

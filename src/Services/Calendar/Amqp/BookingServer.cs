@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Calendar.Interfaces;
+using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace Calendar.Amqp
 {
-    public class BookingServer : IBookingServer
+    public class BookingServer : IHostedService
     {
         private readonly IModel _channel;
 
@@ -18,7 +19,7 @@ namespace Calendar.Amqp
             _channel = channel;
         }
 
-        public void Setup()
+        private void Setup()
         {
             _channel.QueueDeclare("booking_queue", false, false, false, null);
             _channel.BasicQos(0, 1, false);
@@ -51,6 +52,18 @@ namespace Calendar.Amqp
                 _channel.BasicPublish(string.Empty, properties.ReplyTo, replyProperties, responseBytes);
                 _channel.BasicAck(e.DeliveryTag, false);
             }
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            Setup();
+
+            return Task.CompletedTask;
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
         }
     }
 }

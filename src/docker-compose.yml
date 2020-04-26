@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  californianhealthblazor:
+    image: ${DOCKER_REGISTRY-}californianhealthblazor
+    build:
+      context: .
+      dockerfile: Web/CalifornianHealthBlazor/Dockerfile
+
+  calendar:
+    image: ${DOCKER_REGISTRY-}calendar
+    build:
+      context: .
+      dockerfile: Services/Calendar/Dockerfile
+
+
+  appointmentbooking:
+    image: ${DOCKER_REGISTRY-}appointmentbooking
+    build:
+      context: .
+      dockerfile: Services/AppointmentBooking/Dockerfile
+

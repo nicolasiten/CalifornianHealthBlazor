@@ -17,7 +17,7 @@ namespace AppointmentBooking.Amqp
 
         private readonly EventingBasicConsumer _consumer;
         private readonly string _replyQueueName;
-        private string _response;
+        private readonly BlockingCollection<string> _responseQueue = new BlockingCollection<string>();
 
         public BookingClient(IModel channel)
         {
@@ -41,14 +41,14 @@ namespace AppointmentBooking.Amqp
 
             _channel.BasicConsume(_consumer, _replyQueueName, true);
 
-            return _response;
+            return _responseQueue.Take();
         }
 
         private void MessageReceived(object sender, BasicDeliverEventArgs e)
         {
             if (e.BasicProperties.CorrelationId == _properties.CorrelationId)
             {
-                _response = Encoding.UTF8.GetString(e.Body.ToArray());
+                _responseQueue.Add(Encoding.UTF8.GetString(e.Body.ToArray()));
             }
         }
     }

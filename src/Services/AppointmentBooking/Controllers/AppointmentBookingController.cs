@@ -24,7 +24,9 @@ namespace AppointmentBooking.Controllers
         [HttpGet]
         public ActionResult Test()
         {
-            return Ok();
+            var response = _bookingClient.SendBooking("Test");
+
+            return Ok(response);
         }
     }
 }
