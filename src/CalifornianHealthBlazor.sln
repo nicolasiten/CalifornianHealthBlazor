@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calendar", "Services\Calend
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{685A28FE-F244-4D1D-90FD-8970C328E25B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{52F156DE-5898-4529-8092-F440AE891CC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalifornianHealth.Common", "Common\CalifornianHealth.Common\CalifornianHealth.Common.csproj", "{DB8243AE-24B5-4888-9D22-8B09CFE62F90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,10 @@ Global
 		{685A28FE-F244-4D1D-90FD-8970C328E25B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{685A28FE-F244-4D1D-90FD-8970C328E25B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{685A28FE-F244-4D1D-90FD-8970C328E25B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB8243AE-24B5-4888-9D22-8B09CFE62F90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB8243AE-24B5-4888-9D22-8B09CFE62F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB8243AE-24B5-4888-9D22-8B09CFE62F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB8243AE-24B5-4888-9D22-8B09CFE62F90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +53,7 @@ Global
 		{52B1D795-0A0F-4A83-949E-0462E2188462} = {79B30FF6-C6B6-4C85-ABE0-9B9C3CBFC826}
 		{04875755-7ED8-4EEF-9B87-FCBDD62C0830} = {87819A8C-4336-40F4-9EB3-FD71841411FD}
 		{FA293AAC-85B9-4348-B9E4-68266602FFFF} = {87819A8C-4336-40F4-9EB3-FD71841411FD}
+		{DB8243AE-24B5-4888-9D22-8B09CFE62F90} = {52F156DE-5898-4529-8092-F440AE891CC4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64B14918-5C0A-4744-B5BE-F3278DB0C7B0}

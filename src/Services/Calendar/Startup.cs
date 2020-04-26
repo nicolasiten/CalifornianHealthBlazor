@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Calendar.Amqp;
+using CalifornianHealthBlazor.Data;
+using CalifornianHealthBlazor.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -51,6 +54,12 @@ namespace Calendar
             
             // services
             services.AddHostedService<BookingServer>();
+
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DataConnection")), ServiceLifetime.Transient);
 
             services.AddControllers();
         }

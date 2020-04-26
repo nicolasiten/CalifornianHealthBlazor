@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CalifornianHealth.Common.Models;
 using CalifornianHealthBlazor.Data.Entities;
 using CalifornianHealthBlazor.Interfaces;
-using CalifornianHealthBlazor.Models;
 
 namespace CalifornianHealthBlazor.Services
 {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace CalifornianHealthBlazor.Exceptions
+namespace CalifornianHealth.Common.Exceptions
 {
     public class CalifornianHealthException : Exception
     {
