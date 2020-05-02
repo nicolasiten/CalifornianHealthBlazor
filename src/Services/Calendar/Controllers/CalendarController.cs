@@ -38,21 +38,6 @@ namespace Calendar.Controllers
             return freeAppointmentTimes;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> SaveAppointment(AppointmentModel appointmentModel)
-        {
-            try
-            {
-                await _appointmentService.SaveAppointmentAsync(appointmentModel);
-
-                return Ok();
-            }
-            catch (CalifornianHealthException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpGet]
         [Route("GetConsultants")]
         public async Task<IEnumerable<ConsultantModel>> GetConsultants()

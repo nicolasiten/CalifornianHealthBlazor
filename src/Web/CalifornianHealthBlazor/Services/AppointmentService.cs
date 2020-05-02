@@ -15,20 +15,22 @@ namespace CalifornianHealthBlazor.Services
 {
     public class AppointmentService : IAppointmentService
     {
-        private readonly string _baseUrl;
+        private readonly string _calendarBaseUrl;
+        private readonly string _appointmentBaseUrl;
         private readonly HttpClient _httpClient;
 
         public AppointmentService(
             IConfiguration configuration,
             HttpClient httpClient)
         {
-            _baseUrl = configuration.GetValue<string>("CalendarBaseUrl");
+            _calendarBaseUrl = configuration.GetValue<string>("CalendarBaseUrl");
+            _appointmentBaseUrl = configuration.GetValue<string>("AppointmentBookingBaseUrl");
             _httpClient = httpClient;
         }
 
         public async Task<AppointmentModel> BuildAppointmentModelAsync()
         {
-            var response = await _httpClient.GetAsync($"{_baseUrl}GetAppointmentModel");
+            var response = await _httpClient.GetAsync($"{_calendarBaseUrl}GetAppointmentModel");
             var responseString = await response.Content.ReadAsStringAsync();
 
             return JsonConvert.DeserializeObject<AppointmentModel>(responseString);
@@ -65,7 +67,7 @@ namespace CalifornianHealthBlazor.Services
         public async Task<IEnumerable<string>> GetFreeAppointmentTimesAsync(DateTime date, int consultantId)
         {
             var response = await _httpClient.GetAsync(
-                $"{_baseUrl}GetFreeAppointmentTimes?date={date.ToString("s", CultureInfo.InvariantCulture)}&consultantId={consultantId}");
+                $"{_calendarBaseUrl}GetFreeAppointmentTimes?date={date.ToString("s", CultureInfo.InvariantCulture)}&consultantId={consultantId}");
             var responseString = await response.Content.ReadAsStringAsync();
 
             if (string.IsNullOrEmpty(responseString))
@@ -80,7 +82,7 @@ namespace CalifornianHealthBlazor.Services
         {
             var content = new StringContent(JsonConvert.SerializeObject(appointmentModel), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync(_baseUrl, content);
+            var response = await _httpClient.PostAsync(_appointmentBaseUrl, content);
 
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {

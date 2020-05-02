@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AppointmentBooking.Interfaces;
+﻿using AppointmentBooking.Interfaces;
+using CalifornianHealth.Common.Models;
 using Microsoft.AspNetCore.Mvc;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
+using Newtonsoft.Json;
 
 namespace AppointmentBooking.Controllers
 {
@@ -21,12 +16,17 @@ namespace AppointmentBooking.Controllers
             _bookingClient = bookingClient;
         }
 
-        [HttpGet]
-        public ActionResult Test()
+        [HttpPost]
+        public ActionResult SaveAppointment(AppointmentModel appointmentModel)
         {
-            var response = _bookingClient.SendBooking("Test");
+            var response = _bookingClient.SendBooking(JsonConvert.SerializeObject(appointmentModel));
 
-            return Ok(response);
+            if (response == "Ok")
+            {
+                return Ok();
+            }
+
+            return BadRequest(response);
         }
     }
 }

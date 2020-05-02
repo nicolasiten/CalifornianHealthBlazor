@@ -4,7 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Calendar.Interfaces;
+using CalifornianHealth.Common.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -13,10 +17,12 @@ namespace Calendar.Amqp
     public class BookingServer : IHostedService
     {
         private readonly IModel _channel;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public BookingServer(IModel channel)
+        public BookingServer(IModel channel, IServiceScopeFactory serviceScopeFactory)
         {
             _channel = channel;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         private void Setup()
@@ -27,24 +33,31 @@ namespace Calendar.Amqp
             var consumer = new EventingBasicConsumer(_channel);
             _channel.BasicConsume("booking_queue", false, consumer);
 
-            consumer.Received += BookingReceived;
+            consumer.Received += async (sender, e) => await BookingReceived(sender, e);
         }
 
-        private void BookingReceived(object sender, BasicDeliverEventArgs e)
+        private async Task BookingReceived(object sender, BasicDeliverEventArgs e)
         {
             var body = e.Body;
             var properties = e.BasicProperties;
             var replyProperties = _channel.CreateBasicProperties();
             replyProperties.CorrelationId = properties.CorrelationId;
-            var response = "OK";
+            var response = "Ok";
 
             try
             {
-                // TODO try save booking
+                string bodyString = Encoding.UTF8.GetString(body.ToArray());
+                var appointmentModel = JsonConvert.DeserializeObject<AppointmentModel>(bodyString);
+
+                using (var scope = _serviceScopeFactory.CreateScope())
+                {
+                    var appointmentService = scope.ServiceProvider.GetService<IAppointmentService>();
+                    await appointmentService.SaveAppointmentAsync(appointmentModel);
+                }
             }
             catch (Exception ex)
             {
-                // Handle
+                response = ex.Message;
             }
             finally
             {
