@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: Web/CalifornianHealthBlazor/Dockerfile
+    depends_on:
+        - calendar
+        - appointmentbooking
 
   calendar:
     image: ${DOCKER_REGISTRY-}calendar
