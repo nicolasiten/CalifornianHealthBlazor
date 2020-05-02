@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,8 @@ namespace CalifornianHealthBlazor
 
             services.AddHttpClient<IAppointmentService, AppointmentService>();
             services.AddHttpClient<IConsultantService, ConsultantService>();
+
+            services.AddBlazoredToast();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,6 +6,7 @@
 @inject IJSRuntime JsRuntime
 @inject IAppointmentService AppointmentService
 @inject NavigationManager NavigationManager
+@inject IToastService ToastService
 
 <section id="booking" class="section-padding">
     <h2 align="center">Book Appointment</h2>
@@ -13,7 +14,7 @@
 
     <div class="overlay" style="@(_displayLoadingSpinner ? "" : "display: none")">
         <div id="loading"></div>
-    </div>    
+    </div>
 
     <div class="alert alert-danger" style="@(_validationErrors.Any() ? "" : "display: none")">
         <b>Invalid Input</b><br />
@@ -85,6 +86,7 @@
             try
             {
                 await AppointmentService.SaveAppointmentAsync(_appointment);
+                ToastService.ShowSuccess("Successfully saved appointment!");
                 NavigationManager.NavigateTo("/");
             }
             catch (CalifornianHealthException ex)
