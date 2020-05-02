@@ -11,6 +11,10 @@
     <h2 align="center">Book Appointment</h2>
     <hr />
 
+    <div class="overlay" style="@(_displayLoadingSpinner ? "" : "display: none")">
+        <div id="loading"></div>
+    </div>    
+
     <div class="alert alert-danger" style="@(_validationErrors.Any() ? "" : "display: none")">
         <b>Invalid Input</b><br />
         @foreach (var error in _validationErrors)
@@ -51,6 +55,7 @@
 @code {
     private AppointmentModel _appointment = new AppointmentModel();
     private List<string> _validationErrors = new List<string>();
+    private bool _displayLoadingSpinner = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,6 +75,7 @@
 
     private async Task SubmitClicked(MouseEventArgs e)
     {
+        _displayLoadingSpinner = true;
         _validationErrors.Clear();
 
         _validationErrors.AddRange(AppointmentService.ValidateAppointment(_appointment));
@@ -87,6 +93,8 @@
                 await UpdateAvailableAppointments(_appointment.SelectedDate);
             }
         }
+
+        _displayLoadingSpinner = false;
     }
 
     private async Task SelectedConsultantChanged(ChangeEventArgs e)
