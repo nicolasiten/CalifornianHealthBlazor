@@ -6,7 +6,7 @@ using CalifornianHealth.Common.Models;
 
 namespace Calendar.Interfaces
 {
-    public interface IAppointmentService
+    public interface ICalendarService
     {
         Task<AppointmentModel> BuildAppointmentModelAsync();
 

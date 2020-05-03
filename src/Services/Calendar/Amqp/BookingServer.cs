@@ -51,8 +51,8 @@ namespace Calendar.Amqp
 
                 using (var scope = _serviceScopeFactory.CreateScope())
                 {
-                    var appointmentService = scope.ServiceProvider.GetService<IAppointmentService>();
-                    await appointmentService.SaveAppointmentAsync(appointmentModel);
+                    var calendarService = scope.ServiceProvider.GetService<ICalendarService>();
+                    await calendarService.SaveAppointmentAsync(appointmentModel);
                 }
             }
             catch (Exception ex)

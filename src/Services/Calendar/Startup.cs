@@ -56,7 +56,7 @@ namespace Calendar
             
             // services
             services.AddHostedService<BookingServer>();
-            services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<ICalendarService, CalendarService>();
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
 

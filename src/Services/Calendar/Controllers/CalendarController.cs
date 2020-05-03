@@ -13,18 +13,18 @@ namespace Calendar.Controllers
     [ApiController]
     public class CalendarController : ControllerBase
     {
-        private readonly IAppointmentService _appointmentService;
+        private readonly ICalendarService _calendarService;
 
-        public CalendarController(IAppointmentService appointmentService)
+        public CalendarController(ICalendarService calendarService)
         {
-            _appointmentService = appointmentService;
+            _calendarService = calendarService;
         }
 
         [HttpGet]
         [Route("GetAppointmentModel")]
         public async Task<AppointmentModel> GetAppointmentModel()
         {
-            var appointmentModel = await _appointmentService.BuildAppointmentModelAsync();
+            var appointmentModel = await _calendarService.BuildAppointmentModelAsync();
 
             return appointmentModel;
         }
@@ -33,7 +33,7 @@ namespace Calendar.Controllers
         [Route("GetFreeAppointmentTimes")]
         public async Task<IEnumerable<string>> GetFreeAppointmentTimes(DateTime date, int consultantId)
         {
-            var freeAppointmentTimes = await _appointmentService.GetFreeAppointmentTimesAsync(date, consultantId);
+            var freeAppointmentTimes = await _calendarService.GetFreeAppointmentTimesAsync(date, consultantId);
 
             return freeAppointmentTimes;
         }
@@ -42,7 +42,7 @@ namespace Calendar.Controllers
         [Route("GetConsultants")]
         public async Task<IEnumerable<ConsultantModel>> GetConsultants()
         {
-            var consultants = await _appointmentService.GetConsultantsAsync();
+            var consultants = await _calendarService.GetConsultantsAsync();
 
             return consultants;
         }

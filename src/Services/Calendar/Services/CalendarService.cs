@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Calendar.Services
 {
-    public class AppointmentService : IAppointmentService
+    public class CalendarService : ICalendarService
     {
         private readonly IAsyncRepository<Consultant> _consultantRepository;
         private readonly IAsyncRepository<Patient> _patientRepository;
         private readonly IAsyncRepository<TimeSlot> _timeSlotRepository;
         private readonly IAsyncRepository<Appointment> _appointmentRepository;
 
-        public AppointmentService(
+        public CalendarService(
             IAsyncRepository<Consultant> consultantRepository,
             IAsyncRepository<Patient> patientRepository,
             IAsyncRepository<TimeSlot> timeSlotRepository,

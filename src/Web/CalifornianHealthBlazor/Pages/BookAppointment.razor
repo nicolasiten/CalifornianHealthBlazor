@@ -86,7 +86,7 @@
             try
             {
                 await AppointmentService.SaveAppointmentAsync(_appointment);
-                ToastService.ShowSuccess("Successfully saved appointment!");
+                ToastService.ShowSuccess("Successfully saved appointment!", "Appointment saved");
                 NavigationManager.NavigateTo("/");
             }
             catch (CalifornianHealthException ex)
