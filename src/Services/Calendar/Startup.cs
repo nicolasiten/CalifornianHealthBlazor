@@ -43,7 +43,7 @@ namespace Calendar
                     Password = configSection.GetValue<string>("Password")
                 };
             });
-            services.AddTransient<IConnection>(provider =>
+            services.AddSingleton<IConnection>(provider =>
             {
                 var connectionFactory = provider.GetRequiredService<IConnectionFactory>();
                 return connectionFactory.CreateConnection();
