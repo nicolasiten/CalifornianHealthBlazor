@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["CalifornianHealthBlazor/CalifornianHealthBlazor.csproj", "CalifornianHealthBlazor/"]
-RUN dotnet restore "CalifornianHealthBlazor/CalifornianHealthBlazor.csproj"
+COPY ["Web/CalifornianHealthBlazor/CalifornianHealthBlazor.csproj", "Web/CalifornianHealthBlazor/"]
+RUN dotnet restore "Web/CalifornianHealthBlazor/CalifornianHealthBlazor.csproj"
 COPY . .
-WORKDIR "/src/CalifornianHealthBlazor"
+WORKDIR "/src/Web/CalifornianHealthBlazor"
 RUN dotnet build "CalifornianHealthBlazor.csproj" -c Release -o /app/build
 
 FROM build AS publish
