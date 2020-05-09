@@ -40,7 +40,8 @@ namespace Calendar
                 {
                     HostName = configSection.GetValue<string>("HostName"),
                     UserName = configSection.GetValue<string>("UserName"),
-                    Password = configSection.GetValue<string>("Password")
+                    Password = configSection.GetValue<string>("Password"),
+                    AutomaticRecoveryEnabled = true
                 };
             });
             services.AddSingleton<IConnection>(provider =>

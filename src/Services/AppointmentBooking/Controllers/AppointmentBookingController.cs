@@ -1,4 +1,5 @@
-﻿using AppointmentBooking.Interfaces;
+﻿using System.Threading.Tasks;
+using AppointmentBooking.Interfaces;
 using CalifornianHealth.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -17,9 +18,9 @@ namespace AppointmentBooking.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveAppointment(AppointmentModel appointmentModel)
+        public async Task<ActionResult> SaveAppointment(AppointmentModel appointmentModel)
         {
-            var response = _bookingClient.SendBooking(JsonConvert.SerializeObject(appointmentModel));
+            var response = await _bookingClient.SendBooking(JsonConvert.SerializeObject(appointmentModel)).ConfigureAwait(false);
 
             if (response == "Ok")
             {

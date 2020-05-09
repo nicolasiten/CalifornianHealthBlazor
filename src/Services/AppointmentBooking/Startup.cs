@@ -1,17 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AppointmentBooking.Amqp;
 using AppointmentBooking.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
 namespace AppointmentBooking
@@ -29,25 +22,16 @@ namespace AppointmentBooking
         public void ConfigureServices(IServiceCollection services)
         {
             // amqp
-            services.AddSingleton<IConnectionFactory>(provider =>
+            services.AddSingleton<IConnection>(provider =>
             {
                 var configSection = Configuration.GetSection("amqp");
-                return new ConnectionFactory
+                var connectionFactory = new ConnectionFactory
                 {
                     HostName = configSection.GetValue<string>("HostName"),
                     UserName = configSection.GetValue<string>("UserName"),
                     Password = configSection.GetValue<string>("Password")
                 };
-            });
-            services.AddSingleton<IConnection>(provider =>
-            {
-                var connectionFactory = provider.GetRequiredService<IConnectionFactory>();
                 return connectionFactory.CreateConnection();
-            });
-            services.AddTransient<IModel>(provider =>
-            {
-                var connection = provider.GetRequiredService<IConnection>();
-                return connection.CreateModel();
             });
 
             // services

@@ -7,6 +7,6 @@ namespace AppointmentBooking.Interfaces
 {
     public interface IBookingClient
     {
-        string SendBooking(string message);
+        Task<string> SendBooking(string message);
     }
 }
