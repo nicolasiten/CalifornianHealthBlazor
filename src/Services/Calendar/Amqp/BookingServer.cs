@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Calendar.Interfaces;
 using CalifornianHealth.Common.Models;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -28,7 +29,7 @@ namespace Calendar.Amqp
         private void Setup()
         {
             _channel.QueueDeclare("booking_queue", false, false, false, null);
-            _channel.BasicQos(0, 1, false);
+            _channel.BasicQos(0, 1, true);
 
             var consumer = new EventingBasicConsumer(_channel);
             _channel.BasicConsume("booking_queue", false, consumer);
@@ -46,14 +47,14 @@ namespace Calendar.Amqp
 
             try
             {
-                string bodyString = Encoding.UTF8.GetString(body.ToArray());
-                var appointmentModel = JsonConvert.DeserializeObject<AppointmentModel>(bodyString);
+                //string bodyString = Encoding.UTF8.GetString(body.ToArray());
+                //var appointmentModel = JsonConvert.DeserializeObject<AppointmentModel>(bodyString);
 
-                using (var scope = _serviceScopeFactory.CreateScope())
-                {
-                    var calendarService = scope.ServiceProvider.GetService<ICalendarService>();
-                    await calendarService.SaveAppointmentAsync(appointmentModel);
-                }
+                //using (var scope = _serviceScopeFactory.CreateScope())
+                //{
+                //    var calendarService = scope.ServiceProvider.GetService<ICalendarService>();
+                //    await calendarService.SaveAppointmentAsync(appointmentModel);
+                //}
             }
             catch (Exception ex)
             {

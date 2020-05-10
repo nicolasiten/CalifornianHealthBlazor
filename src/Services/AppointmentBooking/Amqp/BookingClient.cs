@@ -7,49 +7,49 @@ using System.Threading.Tasks;
 using AppointmentBooking.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using IConnection = RabbitMQ.Client.IConnection;
 
 namespace AppointmentBooking.Amqp
 {
     public class BookingClient : IBookingClient
     {
-        private readonly IModel _channel;
-        private readonly IBasicProperties _properties;
+        private readonly IConnection _channel;
 
-        private readonly EventingBasicConsumer _consumer;
-        private readonly string _replyQueueName;
-        private readonly BlockingCollection<string> _responseQueue = new BlockingCollection<string>();
-
-        public BookingClient(IModel channel)
+        public BookingClient(IConnection model)
         {
-            _channel = channel;
-
-            _replyQueueName = _channel.QueueDeclare().QueueName;
-            _consumer = new EventingBasicConsumer(_channel);
-
-            _properties = _channel.CreateBasicProperties();
-            var correlationId = Guid.NewGuid().ToString();
-            _properties.CorrelationId = correlationId;
-            _properties.ReplyTo = _replyQueueName;
-
-            _consumer.Received += MessageReceived;
+            _channel = model;
         }
 
-        public string SendBooking(string message)
+        public async Task<string> SendBooking(string message)
         {
-            var messageBytes = Encoding.UTF8.GetBytes(message);
-            _channel.BasicPublish(string.Empty, "booking_queue", _properties, messageBytes);
+            //return await Task.Run(() =>
+            //{
+                using var channel = _channel.CreateModel();
+                BlockingCollection<string> responseQueue = new BlockingCollection<string>();
+                string replyQueueName = channel.QueueDeclare().QueueName;
+                EventingBasicConsumer consumer = new EventingBasicConsumer(channel);
+                IBasicProperties properties = channel.CreateBasicProperties();
+                var correlationId = Guid.NewGuid().ToString();
+                properties.CorrelationId = correlationId;
+            properties.ReplyTo = replyQueueName;
 
-            _channel.BasicConsume(_consumer, _replyQueueName, true);
-
-            return _responseQueue.Take();
-        }
-
-        private void MessageReceived(object sender, BasicDeliverEventArgs e)
-        {
-            if (e.BasicProperties.CorrelationId == _properties.CorrelationId)
+            consumer.Received += (sender, args) =>
             {
-                _responseQueue.Add(Encoding.UTF8.GetString(e.Body.ToArray()));
-            }
+                if (args.BasicProperties.CorrelationId == properties.CorrelationId)
+                {
+                    responseQueue.Add(Encoding.UTF8.GetString(args.Body.ToArray()));
+                }
+            };
+
+            //properties.CorrelationId = hubConnection.ConnectionId;
+            var messageBytes = Encoding.UTF8.GetBytes(message);
+                channel.BasicPublish(string.Empty, "booking_queue", properties, messageBytes);
+
+                channel.BasicConsume(consumer, replyQueueName, true);
+                
+                var result = responseQueue.Take();
+                return result;
+            //}).ConfigureAwait(false);
         }
     }
 }

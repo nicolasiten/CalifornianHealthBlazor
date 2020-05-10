@@ -35,7 +35,7 @@ namespace AppointmentBooking
             });
 
             // services
-            services.AddTransient<IBookingClient, BookingClient>();
+            services.AddSingleton<IBookingClient, BookingClient>();
 
             services.AddControllers();
         }
