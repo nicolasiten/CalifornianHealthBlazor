@@ -54,7 +54,8 @@ namespace Calendar
                 var connection = provider.GetRequiredService<IConnection>();
                 return connection.CreateModel();
             });
-            
+            services.RegisterEasyNetQ("host=192.168.1.31;username=admin;password=Test1234!");
+
             // services
             services.AddHostedService<BookingServer>();
             services.AddScoped<ICalendarService, CalendarService>();
