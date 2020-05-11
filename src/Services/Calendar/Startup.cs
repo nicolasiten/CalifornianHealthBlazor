@@ -33,28 +33,8 @@ namespace Calendar
         public void ConfigureServices(IServiceCollection services)
         {
             // amqp
-            services.AddSingleton<IConnectionFactory>(provider =>
-            {
-                var configSection = Configuration.GetSection("amqp");
-                return new ConnectionFactory
-                {
-                    HostName = configSection.GetValue<string>("HostName"),
-                    UserName = configSection.GetValue<string>("UserName"),
-                    Password = configSection.GetValue<string>("Password"),
-                    AutomaticRecoveryEnabled = true
-                };
-            });
-            services.AddSingleton<IConnection>(provider =>
-            {
-                var connectionFactory = provider.GetRequiredService<IConnectionFactory>();
-                return connectionFactory.CreateConnection();
-            });
-            services.AddTransient<IModel>(provider =>
-            {
-                var connection = provider.GetRequiredService<IConnection>();
-                return connection.CreateModel();
-            });
-            services.RegisterEasyNetQ("host=192.168.1.31;username=admin;password=Test1234!");
+            var configSection = Configuration.GetSection("amqp");
+            services.RegisterEasyNetQ($"host={configSection.GetValue<string>("HostName")};username={configSection.GetValue<string>("UserName")};password={configSection.GetValue<string>("Password")}");
 
             // services
             services.AddHostedService<BookingServer>();

@@ -22,33 +22,8 @@ namespace AppointmentBooking
         public void ConfigureServices(IServiceCollection services)
         {
             // amqp
-            services.AddSingleton<IConnectionFactory>(provider =>
-            {
-                var configSection = Configuration.GetSection("amqp");
-                return new ConnectionFactory
-                {
-                    HostName = configSection.GetValue<string>("HostName"),
-                    UserName = configSection.GetValue<string>("UserName"),
-                    Password = configSection.GetValue<string>("Password"),
-                    AutomaticRecoveryEnabled = true,
-                    DispatchConsumersAsync = true,
-                    UseBackgroundThreadsForIO = true
-                };
-            });
-            services.AddSingleton<IConnection>(provider =>
-            {
-                var configSection = Configuration.GetSection("amqp");
-                var connectionFactory = new ConnectionFactory
-                {
-                    HostName = configSection.GetValue<string>("HostName"),
-                    UserName = configSection.GetValue<string>("UserName"),
-                    Password = configSection.GetValue<string>("Password"),
-                    AutomaticRecoveryEnabled = true,
-                    DispatchConsumersAsync = true
-                };
-                return connectionFactory.CreateConnection();
-            });
-            services.RegisterEasyNetQ("host=192.168.1.31;username=admin;password=Test1234!");
+            var configSection = Configuration.GetSection("amqp");
+            services.RegisterEasyNetQ($"host={configSection.GetValue<string>("HostName")};username={configSection.GetValue<string>("UserName")};password={configSection.GetValue<string>("Password")}");
 
             // services
             services.AddTransient<IBookingClient, BookingClient>();
