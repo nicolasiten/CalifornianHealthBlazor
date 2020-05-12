@@ -15,11 +15,33 @@ services:
     build:
       context: .
       dockerfile: Services/Calendar/Dockerfile
-
+    restart: on-failure:5
 
   appointmentbooking:
     image: ${DOCKER_REGISTRY-}appointmentbooking
     build:
       context: .
       dockerfile: Services/AppointmentBooking/Dockerfile
+    restart: on-failure:5
 
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=Test1234678!
+      - ACCEPT_EULA=Y
+    ports:
+      - "5434:1433"
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    hostname: "rabbitmq"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "Test1234!"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq"
