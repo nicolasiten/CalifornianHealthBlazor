@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Calendar.Amqp;
+using Calendar.Data;
 using Calendar.Interfaces;
 using Calendar.Services;
 using CalifornianHealthBlazor.Data;
@@ -45,6 +46,8 @@ namespace Calendar
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DataConnection")), ServiceLifetime.Transient);
+
+            services.AddSingleton<IAppointmentDataHandler, AppointmentDataHandler>();
 
             services.AddControllers();
         }

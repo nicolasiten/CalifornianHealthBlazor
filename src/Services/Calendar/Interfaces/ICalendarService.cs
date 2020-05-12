@@ -12,8 +12,6 @@ namespace Calendar.Interfaces
 
         Task<IEnumerable<string>> GetFreeAppointmentTimesAsync(DateTime date, int consultantId);
 
-        Task SaveAppointmentAsync(AppointmentModel appointmentModel);
-
         Task<IEnumerable<ConsultantModel>> GetConsultantsAsync();
     }
 }

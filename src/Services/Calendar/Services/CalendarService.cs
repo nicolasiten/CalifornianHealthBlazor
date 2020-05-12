@@ -72,36 +72,6 @@ namespace Calendar.Services
                 .OrderBy(ts => DateTime.Parse(ts));
         }
 
-        public async Task SaveAppointmentAsync(AppointmentModel appointmentModel)
-        {
-            int? timeSlotId =
-                (await _timeSlotRepository.GetAllAsync(ts => ts.Time == appointmentModel.SelectedTime
-                                                             && ts.ConsultantFk == appointmentModel.SelectedConsultantId
-                                                             && ts.DayOfWeek == (int)appointmentModel.SelectedDate.DayOfWeek))
-                .SingleOrDefault()
-                ?.Id;
-
-            if (!timeSlotId.HasValue)
-            {
-                throw new CalifornianHealthException($"Timeslot {appointmentModel.SelectedTime} doesn't exist.");
-            }
-
-            try
-            {
-                await _appointmentRepository.AddAsync(new Appointment
-                {
-                    ConsultantFk = appointmentModel.SelectedConsultantId,
-                    PatientFk = appointmentModel.SelectedPatientId,
-                    TimeSlotFk = timeSlotId.Value,
-                    SelectedDate = appointmentModel.SelectedDate
-                });
-            }
-            catch (DbUpdateException)
-            {
-                throw new CalifornianHealthException($"Timeslot {appointmentModel.SelectedTime} has been booked already, please select another one.");
-            }
-        }
-
         public async Task<IEnumerable<ConsultantModel>> GetConsultantsAsync()
         {
             return (await _consultantRepository.GetAllAsync()).Select(c => new ConsultantModel

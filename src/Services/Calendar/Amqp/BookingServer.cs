@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Calendar.Extensions;
 using Calendar.Interfaces;
 using CalifornianHealth.Common.Amqp.Booking;
+using CalifornianHealth.Common.Exceptions;
 using CalifornianHealth.Common.Models;
 using EasyNetQ;
 using Microsoft.AspNetCore.SignalR;
@@ -19,13 +21,13 @@ namespace Calendar.Amqp
 {
     public class BookingServer : IHostedService
     {
-        //private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IBus _bus;
+        private readonly IAppointmentDataHandler _appointmentDataHandler;
 
-        public BookingServer(IBus bus)
+        public BookingServer(IBus bus, IAppointmentDataHandler appointmentDataHandler)
         {
             _bus = bus;
-            //_serviceScopeFactory = serviceScopeFactory;
+            _appointmentDataHandler = appointmentDataHandler;
         }
 
         private Task<BookingResponse> Response(BookingRequest request)
@@ -35,9 +37,28 @@ namespace Calendar.Amqp
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _bus.Respond<BookingRequest, BookingResponse>(request => { return new BookingResponse {Response = "Ok"}; });
+            //_bus.Respond<BookingRequest, BookingResponse>(request => { return new BookingResponse {Response = "Ok"}; });
+            _bus.RespondAsync<BookingRequest, BookingResponse>(RespondAsync);
 
             return Task.CompletedTask;
+        }
+
+        private async Task<BookingResponse> RespondAsync(BookingRequest request)
+        {
+            if (JsonUtils.TryParse<AppointmentModel>(request.Booking, out var appointmentModel))
+            {
+                try
+                {
+                    await _appointmentDataHandler.SaveAppointmentAsync(appointmentModel);
+                    return new BookingResponse { Response = "Ok" };
+                }
+                catch (CalifornianHealthException ex)
+                {
+                    return new BookingResponse { Response = ex.Message };
+                }
+            }
+
+            return new BookingResponse { Response = "Invalid request. Couldn't parse object!" };
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
