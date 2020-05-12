@@ -37,7 +37,6 @@ namespace Calendar.Amqp
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            //_bus.Respond<BookingRequest, BookingResponse>(request => { return new BookingResponse {Response = "Ok"}; });
             _bus.RespondAsync<BookingRequest, BookingResponse>(RespondAsync);
 
             return Task.CompletedTask;
