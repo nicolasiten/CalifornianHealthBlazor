@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Calendar.Interfaces;
-using CalifornianHealth.Common.Exceptions;
 using CalifornianHealth.Common.Models;
 using CalifornianHealthBlazor.Data.Entities;
 using CalifornianHealthBlazor.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Calendar.Services
 {
@@ -69,7 +67,7 @@ namespace Calendar.Services
                                                                 && ts.ConsultantFk == consultantId
                                                                 && ts.DayOfWeek == (int)date.DayOfWeek))
                 .Select(ts => ts.Time)
-                .OrderBy(ts => DateTime.Parse(ts));
+                .OrderBy(DateTime.Parse);
         }
 
         public async Task<IEnumerable<ConsultantModel>> GetConsultantsAsync()
