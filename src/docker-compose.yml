@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: Web/CalifornianHealthBlazor/Dockerfile
+    ports:
+      - "32773:443"
     depends_on:
         - calendar
         - appointmentbooking
@@ -15,6 +17,9 @@ services:
     build:
       context: .
       dockerfile: Services/Calendar/Dockerfile
+    ports:
+      - "32771:443"
+      - "32772:80"
     restart: on-failure:5
 
   appointmentbooking:
@@ -22,10 +27,14 @@ services:
     build:
       context: .
       dockerfile: Services/AppointmentBooking/Dockerfile
+    ports:
+      - "32769:443"
+      - "32770:80"
     restart: on-failure:5
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
+    hostname: "sqlserver"
     environment:
       - SA_PASSWORD=Test1234678!
       - ACCEPT_EULA=Y
@@ -43,5 +52,3 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
-    labels:
-      NAME: "rabbitmq"
