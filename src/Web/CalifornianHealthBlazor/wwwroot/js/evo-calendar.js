@@ -231,7 +231,7 @@
             sidebarHTML += '<ul class="calendar-months">';
             for(var i = 0; i < _.$cal_months_labels.length; i++) {
                 sidebarHTML += '<li class="month';
-                sidebarHTML += (parseInt(_.$active_month) === i) ? ' active-month' : ''
+                sidebarHTML += (parseInt(_.$active_month) === i) ? ' active-month' : '';
                 sidebarHTML += '" month-val="'+i+'">'+_.$cal_months_labels[i]+'</li>';
             }
             sidebarHTML += '</ul>';
@@ -252,15 +252,19 @@
             calendarHTML += '</tr><tr class="calendar-body">';
             // fill in the days
             var day = 1;
+            var today = new Date(_.$cal_current_date);
+            today.setHours(0, 0, 0, 0);
+            var todayTime = today.getTime();
             // this loop is for is weeks (rows)
             for (var i = 0; i < 9; i++) {
                 // this loop is for weekdays (cells)
                 for (var j = 0; j <= 6; j++) { 
                     calendarHTML += '<td class="calendar-day">';
                     if (day <= monthLength && (i > 0 || j >= startingDay)) {
-                        var thisDay = _.$formatDate(new Date(monthName + '/' + day + '/' + new_year), _.options.format, 'en');
-                        calendarHTML += '<div class="day'
-                        calendarHTML += ((_.$active_date === thisDay) ? ' calendar-active' : '') + '" date-val="' + thisDay + '" date-formatted-val="' + _.$formatDate(new Date(monthName + '/' + day + '/' + new_year), 'yyyy-mm-dd', 'en') + '">'+day+'</div>';
+                        var date = new Date(monthName + '/' + day + '/' + new_year);
+                        var thisDay = _.$formatDate(date, _.options.format, 'en');
+                        calendarHTML += '<div class="day';
+                        calendarHTML += ((_.$active_date === thisDay) ? ' calendar-active"' : '"') + ((date.getTime() < todayTime) ? " disabled='disabled'" : '') + ' date-val="' + thisDay + '" date-formatted-val="' + _.$formatDate(new Date(monthName + '/' + day + '/' + new_year), 'yyyy-mm-dd', 'en') + '">'+day+'</div>';
                         day++;
                     }
                     calendarHTML += '</td>';

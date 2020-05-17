@@ -8,6 +8,7 @@ services:
       dockerfile: Web/CalifornianHealthBlazor/Dockerfile
     ports:
       - "32773:443"
+      - "32774:80"
     depends_on:
         - calendar
         - appointmentbooking
