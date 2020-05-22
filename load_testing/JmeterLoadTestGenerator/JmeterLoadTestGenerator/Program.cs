@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace JmeterLoadTestGenerator
@@ -55,7 +56,10 @@ namespace JmeterLoadTestGenerator
                 }    
             }
 
-            Console.WriteLine("Start generating request files.");
+            var fileNames = Enumerable.Range(1, numberOfRequests);
+            File.WriteAllText($"{outputDirectory}index.csv", string.Join(Environment.NewLine, fileNames));
+
+            Console.WriteLine("Finished generating request files.");
         }
 
         private static DateTime GetNextWeekday(DateTime date)
