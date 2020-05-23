@@ -29,7 +29,7 @@ namespace JmeterLoadTestGenerator
 
             foreach (var doctorId in doctorIds)
             {
-                var date = GetNextWeekday(DateTime.Today);
+                var date = GetNextWeekday(DateTime.UtcNow.Date);
                 var timeStampIndex = 0;
 
                 for (int i = 0; i < numberOfRequests / doctorIds.Length; i++)
