@@ -11,7 +11,7 @@ namespace Calendar
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
@@ -28,11 +28,12 @@ namespace Calendar
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, $"Error while Migrating or Seeding the Database: {ex.Message}");
-                    throw;
+                    return 1;
                 }
             }
 
             await host.RunAsync();
+            return 0;
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

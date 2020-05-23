@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   californianhealthblazor:
+    container_name: californianhealthblazor
     image: ${DOCKER_REGISTRY-}californianhealthblazor
     build:
       context: .
@@ -10,10 +11,11 @@ services:
       - "32773:443"
       - "32774:80"
     depends_on:
-        - calendar
-        - appointmentbooking
+      - calendar
+      - appointmentbooking
 
   calendar:
+    container_name: calendar
     image: ${DOCKER_REGISTRY-}calendar
     build:
       context: .
@@ -21,9 +23,12 @@ services:
     ports:
       - "32771:443"
       - "32772:80"
+    depends_on:
+      - sqlserver
     restart: on-failure:5
 
   appointmentbooking:
+    container_name: appointmentbooking
     image: ${DOCKER_REGISTRY-}appointmentbooking
     build:
       context: .
@@ -34,17 +39,20 @@ services:
     restart: on-failure:5
 
   sqlserver:
+    container_name: sqlserver
     image: mcr.microsoft.com/mssql/server:2019-latest
-    hostname: "sqlserver"
     environment:
-      - SA_PASSWORD=Test1234678!
-      - ACCEPT_EULA=Y
+      SA_PASSWORD: "Test1234678!"
+      ACCEPT_EULA: "Y"
     ports:
       - "5434:1433"
+    volumes: 
+      - "sqlserver-data:/var/opt/sqlserver"
+      - "sqlserver-data:/var/opt/mssql"
 
   rabbitmq:
+    container_name: rabbitmq
     image: "rabbitmq:3-management"
-    hostname: "rabbitmq"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
       RABBITMQ_DEFAULT_USER: "admin"
@@ -53,3 +61,30 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+
+  elasticsearch:
+   container_name: elasticsearch
+   image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+   ports:
+    - 9200:9200
+   volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
+   environment:
+    - xpack.monitoring.enabled=true
+    - xpack.watcher.enabled=false
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - discovery.type=single-node
+
+  kibana:
+   container_name: kibana
+   image: docker.elastic.co/kibana/kibana:7.6.2
+   ports:
+    - 5601:5601
+   depends_on:
+    - elasticsearch
+   environment:
+    - ELASTICSEARCH_URL=http://localhost:9200
+
+volumes:
+  elasticsearch-data:
+  sqlserver-data:
