@@ -20,6 +20,10 @@ namespace Calendar.Controllers
             _calendarService = calendarService;
         }
 
+        /// <summary>
+        /// Get new AppointmentModel with all Doctors and Patients.
+        /// </summary>
+        /// <returns>New AppointmentModel</returns>
         [HttpGet]
         [Route("GetAppointmentModel")]
         public async Task<AppointmentModel> GetAppointmentModel()
@@ -29,6 +33,12 @@ namespace Calendar.Controllers
             return appointmentModel;
         }
 
+        /// <summary>
+        /// Get free appointment times for date and consultant.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="consultantId"></param>
+        /// <returns>Free appointment times</returns>
         [HttpGet]
         [Route("GetFreeAppointmentTimes")]
         public async Task<IEnumerable<string>> GetFreeAppointmentTimes(DateTime date, int consultantId)
@@ -38,6 +48,10 @@ namespace Calendar.Controllers
             return freeAppointmentTimes;
         }
 
+        /// <summary>
+        /// Get All Consultants
+        /// </summary>
+        /// <returns>All consultants</returns>
         [HttpGet]
         [Route("GetConsultants")]
         public async Task<IEnumerable<ConsultantModel>> GetConsultants()
