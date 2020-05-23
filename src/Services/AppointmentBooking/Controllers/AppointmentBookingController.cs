@@ -17,6 +17,12 @@ namespace AppointmentBooking.Controllers
             _bookingClient = bookingClient;
         }
 
+        /// <summary>
+        /// Book an appointment.
+        /// Appointment will be appended to AMQP Queue and processed by Calendar Service.
+        /// </summary>
+        /// <param name="appointmentModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> SaveAppointment(AppointmentModel appointmentModel)
         {
