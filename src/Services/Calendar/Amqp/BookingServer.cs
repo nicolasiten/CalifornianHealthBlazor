@@ -35,11 +35,29 @@ namespace Calendar.Amqp
             return Task.FromResult(new BookingResponse { Response = "Ok" });
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _bus.RespondAsync<BookingRequest, BookingResponse>(RespondAsync);
+            int maxRetries = 5;
+            int retries = 0;
 
-            return Task.CompletedTask;
+            while (retries < maxRetries)
+            {
+                try
+                {
+                    _bus.RespondAsync<BookingRequest, BookingResponse>(RespondAsync);
+                    break;
+                }
+                catch (Exception)
+                {
+                    if (retries >= maxRetries)
+                    {
+                        throw;
+                    }
+
+                    retries++;
+                    await Task.Delay(5000, cancellationToken);
+                }
+            }
         }
 
         private async Task<BookingResponse> RespondAsync(BookingRequest request)
