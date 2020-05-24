@@ -1,3 +1,4 @@
+
 # CalifornianHealthBlazor
 .Net Core Microservice Application to book doctor appointments. Appointment requests are processed with the help of an AMQP Queue.
 ![Architecture Overview](https://github.com/nicolasiten/CalifornianHealthBlazor/blob/master/images/Architecture.PNG)
@@ -12,6 +13,20 @@ Microservice to read and write data to the Database (Doctors, Patients, Availabi
 ## CalifornianHealthBlazor
 Frontend Blazor Application (server side rendering) to book appointments and provide some information about the health clinic and doctors.
 ![Blazor GUI](https://github.com/nicolasiten/CalifornianHealthBlazor/blob/master/images/WebGui.PNG)
+
+# Logging
+Logs are saved to an Elasticsearch NoSQL database and can be visualized through a Kibana Dashboard.
+To browse through Logs create an index pattern:
+1. Go to Kibana Dashboard --> http://localhost:5601
+2. Click "Index Patterns"
+3. Click "Create index pattern"
+4. To get all Logs use "*" (you can also filter by Service, Environment and Date --> see https://www.elastic.co/guide/en/kibana/current/tutorial-define-index.html)
+![Kibana Index Pattern](https://github.com/nicolasiten/CalifornianHealthBlazor/blob/master/images/Kibana1.PNG)
+5. Click "Next step"
+6. Select "@timestamp" from dropdown
+7. Click "Create index pattern"
+8. Click on "Discover" (left menu) to see the logs
+![Kibana Logs](https://github.com/nicolasiten/CalifornianHealthBlazor/blob/master/images/Kibana2.PNG)
 
 # Setup
 ## VS Startup
