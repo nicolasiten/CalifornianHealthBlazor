@@ -13,6 +13,8 @@ services:
     depends_on:
       - calendar
       - appointmentbooking
+    logging:
+        driver: none 
 
   calendar:
     container_name: calendar
@@ -26,6 +28,8 @@ services:
     depends_on:
       - sqlserver
     restart: on-failure:5
+    logging:
+        driver: none 
 
   appointmentbooking:
     container_name: appointmentbooking
@@ -37,6 +41,8 @@ services:
       - "32769:443"
       - "32770:80"
     restart: on-failure:5
+    logging:
+        driver: none 
 
   sqlserver:
     container_name: sqlserver
@@ -49,6 +55,8 @@ services:
     volumes: 
       - "sqlserver-data:/var/opt/sqlserver"
       - "sqlserver-data:/var/opt/mssql"
+    logging:
+        driver: none 
 
   rabbitmq:
     container_name: rabbitmq
@@ -61,6 +69,8 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+    logging:
+        driver: none 
 
   elasticsearch:
    container_name: elasticsearch
@@ -74,6 +84,8 @@ services:
     - xpack.watcher.enabled=false
     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     - discovery.type=single-node
+   logging:
+    driver: none 
 
   kibana:
    container_name: kibana
@@ -84,6 +96,8 @@ services:
     - elasticsearch
    environment:
     - ELASTICSEARCH_URL=http://elasticsearch:9200
+   logging:
+    driver: none 
 
 volumes:
   elasticsearch-data:

@@ -27,7 +27,7 @@ namespace AppointmentBooking.Amqp
             var result = await _bus.RequestAsync<BookingRequest, BookingResponse>(new BookingRequest
             {
                 Booking = message
-            }).ConfigureAwait(false);
+            });
 
             return result.Response;
         }
