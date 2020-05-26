@@ -10,7 +10,7 @@ namespace JmeterLoadTestGenerator
         static void Main(string[] args)
         {
             // Config
-            var numberOfRequests = 3000;
+            var numberOfRequests = 15000;
             var doctorIds = new[] { 1, 2, 3 };
             var timeStamps = new[]
             {

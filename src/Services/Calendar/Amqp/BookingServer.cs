@@ -46,7 +46,7 @@ namespace Calendar.Amqp
                 {
                     _bus.RespondAsync<BookingRequest, BookingResponse>(RespondAsync, configuration =>
                         {
-                            configuration.WithPrefetchCount(50);
+                            configuration.WithPrefetchCount(200);
                         });
                     break;
                 }
