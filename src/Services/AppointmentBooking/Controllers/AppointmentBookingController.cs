@@ -22,7 +22,8 @@ namespace AppointmentBooking.Controllers
         /// Appointment will be appended to AMQP Queue and processed by Calendar Service.
         /// </summary>
         /// <param name="appointmentModel"></param>
-        /// <returns></returns>
+        /// <response code="200">Ok</response>
+        /// <response code="400">Bad Request</response>
         [HttpPost]
         public async Task<ActionResult> SaveAppointment(AppointmentModel appointmentModel)
         {
